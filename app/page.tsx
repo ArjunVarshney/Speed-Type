@@ -19,7 +19,7 @@ export default function Home() {
           </div>
         </div>
         <div className="hidden xl:block ">
-          <Keyboard className="shadow-lg" />
+          <Keyboard className="p-5 border border-solid border-neutral/75 shadow-lg" />
         </div>
         <div className="flex-col gap-2 hidden sm:flex xl:hidden">
           <kbd className="kbd kbd-lg bg-primary text-primary-content p-7 px-10">
