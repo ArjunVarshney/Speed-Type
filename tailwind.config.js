@@ -62,7 +62,17 @@ module.exports = {
     ],
   },
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        blink: "blink 1s ease-out infinite",
+      },
+      keyframes: {
+        blink: {
+          "0%, 100%": { opacity: "100%" },
+          "50%": { opacity: "0%" },
+        },
+      },
+    },
   },
   plugins: [require("daisyui")],
 };

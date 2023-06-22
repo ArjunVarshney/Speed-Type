@@ -1322,7 +1322,6 @@ export const words: { [key: string]: string[] } = {
     "badly",
     "basic",
     "basis",
-    "bass1",
     "beach",
     "beard",
     "beast",

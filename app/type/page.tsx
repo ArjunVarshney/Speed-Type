@@ -11,6 +11,10 @@ const Type = () => {
   const [words, setWords] = useState<string[]>([]);
   const [typed, setTyped] = useState("");
   const [finish, setFinish] = useState<boolean>(false);
+  const [caretPosition, setCaretPosition] = useState<{
+    top: number;
+    left: number;
+  }>({ top: 0, left: window.innerWidth >= 768 ? 40 : 0 });
 
   const addClasses = (id: string, classes: string[]) => {
     document.getElementById(id)?.classList.add(...classes);
@@ -54,6 +58,45 @@ const Type = () => {
         removeClasses(`word${i}`, ["underline", "decoration-error"]);
       }
     }
+
+    let sum = 0;
+    for (let i = 0; i < typed_words.length - 1; i++) {
+      const wordWidth =
+        document.getElementById(`word${i}`)?.getBoundingClientRect().width || 0;
+      const finalWidth = wordWidth;
+      sum += finalWidth + 14;
+    }
+    for (
+      let i = 0;
+      i < typed_words[typed_words.length - 1].split("").length;
+      i++
+    ) {
+      let letterWidth = document
+        .getElementById(`word${typed_words.length - 1}letter${i}`)
+        ?.getBoundingClientRect().width;
+      if (!letterWidth) {
+        const span = document.createElement("span");
+        span.textContent = typed_words[typed_words.length - 1].split("")[i];
+        span.style.visibility = "hidden"; // Make the element hidden
+
+        // Append the span to the document body
+        document.body.appendChild(span);
+
+        // Get the width of the span element
+        letterWidth = span.getBoundingClientRect().width;
+        letterWidth += 0.6 * letterWidth;
+
+        // Remove the span element from the document body
+        document.body.removeChild(span);
+      } else {
+        letterWidth += 0.09 * letterWidth;
+      }
+      sum += letterWidth + 0.01 * letterWidth;
+    }
+    setCaretPosition({
+      top: 0,
+      left: sum + (window.innerWidth >= 768 ? 40 : 0),
+    });
 
     // remove underline if the word is not in typed_words
     for (let i = 0; i < words.length; i++) {
@@ -116,6 +159,7 @@ const Type = () => {
     setWords(randomWords(100, "easy", false));
     disColor();
     setTyped("");
+    setCaretPosition({ top: 0, left: window.innerWidth >= 768 ? 40 : 0 });
     setTimer(30);
     setFinish(false);
   };
@@ -125,6 +169,7 @@ const Type = () => {
     setWords(words);
     disColor();
     setTyped("");
+    setCaretPosition({ top: 0, left: window.innerWidth >= 768 ? 40 : 0 });
     setTimer(30);
     setFinish(false);
   };
@@ -197,6 +242,12 @@ const Type = () => {
             setTimer={setTimer}
           />
           <div className="pb-10 !pt-0 md:p-10 overflow-hidden relative">
+            <div
+              className={`bg-primary w-[2px] absolute z-10 h-[30px] top-0 animate-blink transition-all duration-75`}
+              style={{
+                left: `${caretPosition.left}px`,
+              }}
+            ></div>
             <div className="max-h-[150px] min-w-full text-left break-words text-lg md:text-2xl overflow-hidden flex flex-wrap gap-x-3.5 gap-y-1 md:gap-y-2 text-base-content/60">
               {words &&
                 words.map((w, index) => (
