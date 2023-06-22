@@ -4,7 +4,7 @@ import Layout from "@/components/common/Layout";
 import randomWords from "@/scripts/randomWords";
 import React, { useEffect, useState } from "react";
 
-const page = () => {
+const Type = () => {
   const [typed, setTyped] = useState("");
   const [words, setWords] = useState<string[]>([]);
 
@@ -116,4 +116,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Type;
