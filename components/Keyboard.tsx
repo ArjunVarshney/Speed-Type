@@ -47,196 +47,90 @@ const Keyboard = ({ className = "", keyClasses = "" }) => {
     <>
       <div className={`${className} ` + "rounded-box bg-base-200"}>
         <div className="flex justify-center gap-1 my-1 w-full">
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md q"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md q"}>
             q
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md w"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md w"}>
             w
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md e"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md e"}>
             e
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md r"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md r"}>
             r
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md t"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md t"}>
             t
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md y"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md y"}>
             y
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md u"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md u"}>
             u
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md i"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md i"}>
             i
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md o"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md o"}>
             o
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md p"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md p"}>
             p
           </kbd>
         </div>
         <div className="flex justify-center gap-1 my-1 w-full">
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md a"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md a"}>
             a
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md s"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md s"}>
             s
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md d"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md d"}>
             d
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md f"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md f"}>
             f
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md g"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md g"}>
             g
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md h"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md h"}>
             h
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md j"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md j"}>
             j
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md k"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md k"}>
             k
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md l"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md l"}>
             l
           </kbd>
         </div>
         <div className="flex justify-center gap-1 my-1 w-full">
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md z"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md z"}>
             z
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md x"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md x"}>
             x
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md c"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md c"}>
             c
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md v"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md v"}>
             v
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md b"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md b"}>
             b
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md n"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md n"}>
             n
           </kbd>
-          <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md m"
-            }
-          >
+          <kbd className={`${keyClasses} ` + "kbd transition-all shadow-md m"}>
             m
           </kbd>
           <kbd
-            className={
-              `${keyClasses} ` + "kbd transition-all shadow-md slash"
-            }
+            className={`${keyClasses} ` + "kbd transition-all shadow-md slash"}
           >
             /
           </kbd>
@@ -245,7 +139,7 @@ const Keyboard = ({ className = "", keyClasses = "" }) => {
           <kbd
             className={
               `${keyClasses} ` +
-              "kbd transition-all shadow-md space w-[60%]"
+              "kbd transition-all shadow-md space w-[60%] max-w-[300px]"
             }
           >
             {" "}
