@@ -1,17 +1,16 @@
 "use client";
 import Keyboard from "@/components/Keyboard";
+import Timer from "@/components/Timer";
 import Layout from "@/components/common/Layout";
 import randomWords from "@/scripts/randomWords";
 import React, { useEffect, useState } from "react";
 
 const Type = () => {
-  const [typed, setTyped] = useState("");
+  const [start, setStart] = useState<boolean>(false);
+  const [timer, setTimer] = useState(30);
   const [words, setWords] = useState<string[]>([]);
-
-  useEffect(() => {
-    let words = randomWords(100, "easy", false);
-    setWords(words);
-  }, []);
+  const [typed, setTyped] = useState("");
+  const [finish, setFinish] = useState<boolean>(false);
 
   const addClasses = (id: string, classes: string[]) => {
     document.getElementById(id)?.classList.add(...classes);
@@ -21,9 +20,10 @@ const Type = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTyped(e.target.value);
     const typed = e.target.value;
     const typed_words = typed.split(" ");
+    setStart(true);
+    if (!finish) setTyped(e.target.value);
 
     // match typed words with actual words
     for (let i = 0; i < typed_words.length; i++) {
@@ -56,11 +56,16 @@ const Type = () => {
     }
 
     // remove underline if the word is not in typed_words
-    for (let i = 0; i < typed_words.length + 2; i++) {
+    for (let i = 0; i < words.length; i++) {
       const w = typed_words[i];
       const actual = words[i];
       if (!typed_words[i]) {
-        removeClasses(`word${i}`, ["underline", "decoration-error"]);
+        removeClasses(`word${i}`, [
+          "underline",
+          "decoration-error",
+          "text-primary",
+          "text-error",
+        ]);
       }
 
       if (w && w.length > actual.length) {
@@ -82,12 +87,117 @@ const Type = () => {
     }
   };
 
+  const disColor = () => {
+    for (let i = 0; i < typed.length + 2; i++) {
+      const w = words[i];
+      removeClasses(`word${i}`, ["underline"]);
+      if (w)
+        for (let j = 0; j < w.split("").length; j++) {
+          removeClasses(`word${i}letter${j}`, ["text-primary", "text-error"]);
+        }
+      document.getElementById(`extra${i}`)?.remove();
+    }
+  };
+
+  useEffect(() => {
+    let words = randomWords(100, "easy", false);
+    setWords(words);
+  }, []);
+
+  useEffect(() => {
+    if (finish) {
+      // @ts-ignore
+      detail_modal.showModal();
+    }
+  }, [finish]);
+
+  const restart = () => {
+    setStart(false);
+    setWords(randomWords(100, "easy", false));
+    disColor();
+    setTyped("");
+    setTimer(30);
+    setFinish(false);
+  };
+
+  const repeat = () => {
+    setStart(false);
+    setWords(words);
+    disColor();
+    setTyped("");
+    setTimer(30);
+    setFinish(false);
+  };
+
   return (
     <main>
-      <Layout className="mt-24 flex flex-col md:flex-row gap-4">
-        <div className="w-full flex flex-col items-center justify-center p-10 pt-0">
-          <div className="p-10 overflow-hidden relative">
-            <div className="max-h-[150px] min-w-full text-left break-words text-2xl overflow-hidden flex flex-wrap gap-x-3.5 gap-y-2 text-base-content/60">
+      <Layout className="mt-24 flex flex-col gap-4">
+        <div className="w-full flex flex-col items-center justify-center md:p-10 pt-0">
+          <dialog
+            id="detail_modal"
+            className="rounded-box bg-base-100 w-[85%] h-[90%] z-50 drop-shadow-lg overflow-y-hidden text-right border border-accent/20 border-solid"
+          >
+            <form
+              method="dialog"
+              className="p-10 flex flex-col justify-center h-full gap-5 w-full"
+            >
+              <div className="stats">
+                <div className="stat place-items-center">
+                  <div className="stat-title">WPM</div>
+                  <div className="stat-value text-secondary">95</div>
+                </div>
+
+                <div className="stat place-items-center">
+                  <div className="stat-title">Acc</div>
+                  <div className="stat-value text-secondary">96%</div>
+                </div>
+
+                <div className="stat place-items-center">
+                  <div className="stat-title">RAW</div>
+                  <div className="stat-value">101</div>
+                </div>
+              </div>
+
+              <div className="stats">
+                <div className="stat place-items-center">
+                  <div className="stat-title">CPM</div>
+                  <div className="stat-value">483</div>
+                </div>
+                <div className="stat place-items-center">
+                  <div className="stat-title">Consistency</div>
+                  <div className="stat-value">71%</div>
+                </div>
+                <div className="stat place-items-center">
+                  <div className="stat-title">Time</div>
+                  <div className="stat-value">10s</div>
+                </div>
+              </div>
+
+              <div className="stats">
+                <div className="stat place-items-center">
+                  <div className="stat-title">Mistakes</div>
+                  <div className="stat-value">112/3/0/0</div>
+                </div>
+              </div>
+
+              <div className="flex pt-20 justify-around items-center w-full">
+                <button className="btn btn-primary w-[45%]" onClick={restart}>
+                  Restart
+                </button>
+                <button className="btn btn-primary w-[45%]" onClick={repeat}>
+                  Repeat
+                </button>
+              </div>
+            </form>
+          </dialog>
+          <Timer
+            start={start}
+            setFinish={setFinish}
+            timer={timer}
+            setTimer={setTimer}
+          />
+          <div className="pb-10 !pt-0 md:p-10 overflow-hidden relative">
+            <div className="max-h-[150px] min-w-full text-left break-words text-lg md:text-2xl overflow-hidden flex flex-wrap gap-x-3.5 gap-y-1 md:gap-y-2 text-base-content/60">
               {words &&
                 words.map((w, index) => (
                   <span
@@ -109,7 +219,10 @@ const Type = () => {
               onChange={(e) => handleChange(e)}
             />
           </div>
-          <Keyboard keyClasses="kbd-sm sm:kbd-md 2xl:kbd-lg" />
+          <Keyboard
+            className="hidden sm:block"
+            keyClasses="kbd-sm sm:kbd-md 2xl:kbd-lg"
+          />
         </div>
       </Layout>
     </main>
