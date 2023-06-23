@@ -14,7 +14,7 @@ const Type = () => {
   const [caretPosition, setCaretPosition] = useState<{
     top: number;
     left: number;
-  }>({ top: 0, left: window.innerWidth >= 768 ? 40 : 0 });
+  }>({ top: 0, left: 0 });
 
   const addClasses = (id: string, classes: string[]) => {
     document.getElementById(id)?.classList.add(...classes);
@@ -144,6 +144,7 @@ const Type = () => {
 
   useEffect(() => {
     let words = randomWords(100, "easy", false);
+    setCaretPosition({ top: 0, left: window.innerWidth >= 768 ? 40 : 0 });
     setWords(words);
   }, []);
 
@@ -243,7 +244,9 @@ const Type = () => {
           />
           <div className="pb-10 !pt-0 md:p-10 overflow-hidden relative">
             <div
-              className={`bg-primary w-[2px] absolute z-10 h-[30px] top-0 animate-blink transition-all duration-75`}
+              className={`bg-primary w-[2px] absolute z-10 h-[30px] top-0 ${
+                !start && "animate-blink"
+              } transition-all duration-75`}
               style={{
                 left: `${caretPosition.left}px`,
               }}
