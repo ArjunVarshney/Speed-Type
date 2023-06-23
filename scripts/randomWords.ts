@@ -2,13 +2,16 @@ import { words } from "@/constants/words";
 
 export default function randomWords(
   length: number,
-  difficulty: "easy" | "medium" | "hard",
+  difficulty: "very easy" | "easy" | "medium" | "hard",
   capitalize: boolean = false
 ): string[] {
   const result = [];
   let range: [number, number] = [1, 15];
   let prob: number[] = [];
-  if (difficulty === "easy") {
+  if (difficulty === "very easy") {
+    range = [1, 5];
+    prob = [0.2, 0.5, 0.6, 0.6, 0.6, 0.4, 0.3];
+  } else if (difficulty === "easy") {
     range = [1, 7];
     prob = [0.06, 0.06, 0.083, 0.143, 0.23, 0.25, 0.25];
   } else if (difficulty === "medium") {
