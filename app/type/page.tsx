@@ -12,10 +12,9 @@ const Type = () => {
   const [words, setWords] = useState<string[]>([]);
   const [typed, setTyped] = useState("");
   const [finish, setFinish] = useState<boolean>(false);
-  const [caretPosition, setCaretPosition] = useState<{
-    top: number;
-    left: number;
-  }>({ top: 0, left: 0 });
+  const [caretLeft, setCaretLeft] = useState<number>(0);
+  const [caretTop, setCaretTop] = useState<number>(0);
+  const [lastWordOPL, setLastWordOPL] = useState<number[]>([0]);
 
   const addClasses = (id: string, classes: string[]) => {
     document.getElementById(id)?.classList.add(...classes);
@@ -79,9 +78,12 @@ const Type = () => {
     if (!typeBox) return;
 
     let sum = 0;
-    let top = 0;
     let left = 0;
-    for (let i = 0; i < typed_words.length - 1; i++) {
+    if (lastWordOPL[0] > typed_words.length - 1 && typed_words.length !== 0) {
+      lastWordOPL.splice(0, 1);
+      setCaretTop((prev) => prev - (window.innerWidth >= 768 ? 40 : 32));
+    }
+    for (let i = lastWordOPL[0]; i < typed_words.length - 1; i++) {
       const wordWidth =
         document.getElementById(`word${i}`)?.getBoundingClientRect().width || 0;
       sum += wordWidth + 14;
@@ -90,7 +92,9 @@ const Type = () => {
         toNumber(window.getComputedStyle(typeBox).width)
       ) {
         sum = 0;
-        top += window.innerWidth >= 768 ? 40 : 32;
+        i++;
+        setLastWordOPL((prev) => [i, ...prev]);
+        setCaretTop((prev) => prev + (window.innerWidth >= 768 ? 40 : 32));
       }
     }
     for (
@@ -112,8 +116,7 @@ const Type = () => {
       sum += letterWidth + 0.01 * letterWidth;
     }
     left = sum + (window.innerWidth >= 768 ? 40 : 0);
-
-    setCaretPosition({ top, left });
+    setCaretLeft(left);
 
     // remove underline if the word is not in typed_words
     for (let i = 0; i < words.length; i++) {
@@ -160,8 +163,9 @@ const Type = () => {
   };
 
   useEffect(() => {
-    let words = randomWords(100, "easy", false);
-    setCaretPosition({ top: 0, left: window.innerWidth >= 768 ? 40 : 0 });
+    let words = randomWords(100, "very easy", false);
+    setCaretLeft(window.innerWidth >= 768 ? 40 : 0);
+    setCaretTop(0);
     setWords(words);
   }, []);
 
@@ -177,7 +181,8 @@ const Type = () => {
     setWords(randomWords(100, "easy", false));
     disColor();
     setTyped("");
-    setCaretPosition({ top: 0, left: window.innerWidth >= 768 ? 40 : 0 });
+    setCaretLeft(window.innerWidth >= 768 ? 40 : 0);
+    setCaretTop(0);
     setTimer(60);
     setFinish(false);
   };
@@ -187,14 +192,15 @@ const Type = () => {
     setWords(words);
     disColor();
     setTyped("");
-    setCaretPosition({ top: 0, left: window.innerWidth >= 768 ? 40 : 0 });
+    setCaretLeft(window.innerWidth >= 768 ? 40 : 0);
+    setCaretTop(0);
     setTimer(60);
     setFinish(false);
   };
 
   return (
     <main>
-      <Layout className="mt-24 flex flex-col gap-4">
+      <Layout className="flex flex-col gap-4">
         <div className="w-full flex flex-col items-center justify-center md:p-10 pt-0">
           <dialog
             id="detail_modal"
@@ -266,13 +272,9 @@ const Type = () => {
               } transition-all duration-75`}
               style={{
                 top: `${
-                  caretPosition.top > 0
-                    ? window.innerWidth >= 768
-                      ? 40
-                      : 32
-                    : 0
+                  caretTop > 0 ? (window.innerWidth >= 768 ? 40 : 32) : 0
                 }px`,
-                left: `${caretPosition.left}px`,
+                left: `${caretLeft}px`,
               }}
             ></div>
             <div
@@ -280,8 +282,8 @@ const Type = () => {
               className="min-w-full text-left break-words text-lg md:text-2xl flex flex-wrap gap-x-3.5 gap-y-1 md:gap-y-2 text-base-content/60 transition-all"
               style={{
                 marginTop: `-${
-                  caretPosition.top > 0 &&
-                  caretPosition.top - (window.innerWidth >= 768 ? 40 : 32)
+                  caretTop > 0 &&
+                  caretTop - (window.innerWidth >= 768 ? 40 : 32)
                 }px`,
               }}
             >
@@ -308,7 +310,7 @@ const Type = () => {
               onBlur={() => setFocused(false)}
             />
             <div
-              className="absolute top-0 left-0 right-0 bottom-0 z-30 grid place-items-center text-neutral/75 bg-base-200/35 rounded-[10px] backdrop-blur text-2xl pointer-events-none transition-all"
+              className="absolute top-0 left-0 right-0 bottom-0 z-30 grid place-items-center text-neutral/75 bg-base-200/35 backdrop-blur text-2xl pointer-events-none transition-all duration-300"
               style={{
                 opacity: `${focus ? "0%" : "100%"}`,
               }}
