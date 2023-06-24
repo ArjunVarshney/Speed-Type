@@ -2,16 +2,16 @@
 import React, { useEffect, useState } from "react";
 
 type KeyboardType = {
-  className: string;
-  keyClasses: string;
-  isFocus: boolean;
-  setNPressed: Function;
+  className?: string;
+  keyClasses?: string;
+  isFocus?: boolean;
+  setNPressed?: Function;
 };
 
 const Keyboard = ({
   className = "",
   keyClasses = "",
-  isFocus,
+  isFocus = false,
   setNPressed,
 }: KeyboardType) => {
   const [pressedKeys, setPressedKeys] = useState<string[]>([]);
@@ -21,7 +21,7 @@ const Keyboard = ({
       if (!pressedKeys.includes(event.key)) {
         setPressedKeys((prevKeys: any) => [...prevKeys, event.key]);
       }
-      if (isFocus) setNPressed((prev: number) => prev + 1);
+      if (isFocus && setNPressed) setNPressed((prev: number) => prev + 1);
     };
 
     const handleKeyUp = (event: KeyboardEvent) => {
