@@ -1,7 +1,19 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-const Keyboard = ({ className = "", keyClasses = "" }) => {
+type KeyboardType = {
+  className: string;
+  keyClasses: string;
+  isFocus: boolean;
+  setNPressed: Function;
+};
+
+const Keyboard = ({
+  className = "",
+  keyClasses = "",
+  isFocus,
+  setNPressed,
+}: KeyboardType) => {
   const [pressedKeys, setPressedKeys] = useState<string[]>([]);
 
   useEffect(() => {
@@ -9,6 +21,7 @@ const Keyboard = ({ className = "", keyClasses = "" }) => {
       if (!pressedKeys.includes(event.key)) {
         setPressedKeys((prevKeys: any) => [...prevKeys, event.key]);
       }
+      if (isFocus) setNPressed((prev: number) => prev + 1);
     };
 
     const handleKeyUp = (event: KeyboardEvent) => {
